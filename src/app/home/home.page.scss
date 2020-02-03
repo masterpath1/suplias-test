@@ -1,1 +1,71 @@
+@import '../../theme/fonts.scss';
 
+.graphik-semibold {
+    font-family: 'Graphik Semibold';
+}
+.graphik-medium {
+    font-family: 'Graphik Medium';
+}
+.graphik-regular {
+    font-family: 'Graphik Regular';
+}
+.grey-light {
+    color: #C4CAD0;
+}
+.grey-dark {
+    color: #9DA5B0;
+}
+.text-dark {
+    color: #171C34;
+}
+.text-white {
+    color: #ffffff;
+}
+.placeholder-background {
+    --background: #ffffff;
+}
+.ion-icon {
+    font-size: 35px;
+    color: #ffffff;
+}
+.badge {
+    --background: #EE3939;
+    margin-bottom: 20px;
+}
+.image-size {
+    height: 100px;
+    width: 100px;
+    border-radius: 50%;
+}
+.line {
+    border-bottom: 1px solid #C4CAD0;
+    margin-bottom: 20px;
+}
+.blue-background {
+    background: #3B54EC;
+    height: 300px;
+    z-index: 1;
+    margin-bottom: -80px;
+}
+.card-padding {
+    background: #ffffff;
+    z-index: 2;
+}
+.badge-color {
+    --background: #EE3939;
+}
+.line-only {
+    border-bottom: 1px solid #C4CAD0;
+}
+.active-line {
+    border-bottom: 2px solid #3B54EC;
+}
+.button-height {
+    height: 45px;
+}
+.badge-warning {
+    --background: #F9B13D;
+}
+.float-right {
+    float: right;
+}
