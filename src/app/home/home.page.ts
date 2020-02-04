@@ -82,6 +82,10 @@ export class HomePage {
     return order.tag == 'completed';
   }
 
+  getProductImage(image: any) {
+    return '../assets/img/'+image;
+  }
+
   ngOnInit () {
     this.getBuyerData();
     this.getOrderItemData();
