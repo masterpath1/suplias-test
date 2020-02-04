@@ -18,6 +18,9 @@
 .text-dark {
     color: #171C34;
 }
+.text-red {
+    color: #EE3939;
+}
 .text-white {
     color: #ffffff;
 }
@@ -66,6 +69,23 @@
 .badge-warning {
     --background: #F9B13D;
 }
+.badge-success {
+    --background: #00A879;
+}
 .float-right {
     float: right;
+}
+.product-image-size {
+    height: 80px;
+    width: 50px;
+}
+.border-line {
+    border-top: 1px solid #C4CAD0;
+    border-bottom: 1px solid #C4CAD0;
+}
+.border-right {
+    border-right: 1px solid #C4CAD0;
+}
+.capitalize {
+    text-transform: capitalize;
 }

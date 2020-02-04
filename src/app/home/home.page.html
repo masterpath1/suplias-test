@@ -2,7 +2,7 @@
   <!-- <ion-content class="blue-background">
     
   
-  </ion-content> -->
+  </ion-content> --> 
   
   <ion-content 
     class="placeholder-background"
@@ -11,9 +11,9 @@
     <div class="blue-background">
       <div class="ion-padding">
         <h3 class="graphik-medium grey-light">
-          Good morning,
+          Good morning, 
           <br>
-          <span class="graphik-semibold text-white">Marvelous Stores (Kiosk)</span>
+          <span class="graphik-semibold text-white">{{ name }} ({{ storeType }})</span>
         </h3>
       </div>
     
@@ -34,7 +34,7 @@
           >
             <div>
               <ion-icon name="archive" class="ion-icon"></ion-icon>
-              <ion-badge class="badge">2</ion-badge>
+              <ion-badge class="badge">{{ orderCount }}</ion-badge>
             </div> 
           </ion-col
           >
@@ -59,23 +59,22 @@
         <div class="ion-padding">
           <h2 class="graphik-medium grey-light">PERSON</h2>
           <h2 class="text-dark">
-            Marvelous Stores (Kiosk)
+            {{ name }}
           </h2>
         </div>
         
         <div class="ion-padding">
           <h2 class="graphik-medium grey-light">STORE</h2>
           <h2 class="text-dark">
-            Marvelous Ottah <br>
-            07034456172
+            {{ person }} <br>
+            {{ phone }}
           </h2>
         </div>
   
         <div class="ion-padding">
           <h2 class="graphik-medium grey-light">BILLING ADDRESS</h2>
           <h2 class="text-dark">
-            14, Rosanwo Street, Aguda, Surulere — <br>
-            <span class="graphik-semibold">Surulere, Lagos</span>
+            {{ address }}
           </h2>
         </div>
   
@@ -97,7 +96,7 @@
             <ion-col class="active-line">
               <h2>
                 Orders
-                <ion-badge class="badge-color">2</ion-badge>
+                <ion-badge class="badge-color">{{ orderCount }}</ion-badge>
               </h2>
             </ion-col>
             <ion-col size="5">
@@ -117,7 +116,7 @@
             <ion-col size="4">
               <ion-button color="light" class="button-height">
                 <ion-icon name="funnel"></ion-icon>
-                &nbsp; Light
+                &nbsp; Filter
               </ion-button>
             </ion-col>
 
@@ -130,37 +129,106 @@
           </ion-row>
         </ion-grid>
   
-        <div class="ion-padding line">
-          <ion-badge class="badge-warning">Pending</ion-badge>
+        <div class="ion-padding line" *ngFor="let order of orders">
+          <ion-badge [ngClass]="checkStatus(order.tag)" class="capitalize">
+            {{ order.tag }}
+          </ion-badge>
           <h2 class="graphik-medium text-dark">
-            Order #FC09910
-            <span class="float-right">&#x20A6; 4,311</span>
+            Order #{{ order.ref }}
+            <span class="float-right">&#x20A6; {{ order.amount | number}}</span>
           </h2>
           <h2 class="grey-light">
-            4 Items · Aug 8, 2019
+            {{ getExactOrderItems(order._id).length }} Items · 
+            {{ formatDate(order.created) }}
           </h2>
         </div>
-        
-        <div class="ion-padding line">
-          <ion-badge class="badge-warning">Completed</ion-badge>
-          <h2 class="graphik-medium text-dark">
-            Order ##FC09882
-            <span class="float-right">&#x20A6; 2,350</span>
-          </h2>
-          <h2 class="grey-light">
-            2 Items · Aug 3, 2019
-          </h2>
-        </div>
-  
-        <div class="ion-padding">
-          <h2 class="graphik-medium grey-light">BILLING ADDRESS</h2>
-          <h2 class="text-dark">
-            14, Rosanwo Street, Aguda, Surulere — <br>
-            <span class="graphik-semibold">Surulere, Lagos</span>
-          </h2>
-        </div>
-  
       </ion-card-content>
+    </ion-card>
+
+    <ion-card *ngFor="let order of orders">
+      <div *ngIf="checkCompleteStatus(order)">
+        <ion-card-header class="line-only">
+          <ion-card-title class="graphik-medium ion-padding">
+            Order #{{ order.ref }}
+          </ion-card-title>
+          
+        </ion-card-header>
+      
+        <ion-card-content>
+    
+          <ion-grid>
+            <ion-row>
+              <ion-col class="ion-padding">
+                <h2 class="graphik-medium grey-light">DATE</h2>
+                <h2 class="text-dark">
+                  {{ formatDate(order.created) }}
+                </h2>
+              </ion-col>
+  
+              <ion-col class="ion-padding">
+                <h2 class="graphik-medium grey-light">STATUS</h2>
+                <h2 class="text-dark">
+                  <ion-badge [ngClass]="checkStatus(order.tag)" class="capitalize">
+                    {{ order.tag }}
+                  </ion-badge>
+                </h2>
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+  
+          <ion-grid>
+            <ion-row>
+              <ion-col class="ion-padding">
+                <h2 class="graphik-medium grey-light">DISTRUBUTOR</h2>
+                <h2 class="text-dark">
+                  {{ order.seller.name }}
+                </h2>
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+  
+          <ion-list>
+  
+            <ion-item 
+              class="border-line" 
+              *ngFor="let item of getExactOrderItems(order._id)"
+            >
+              <ion-grid>
+                <ion-row>
+                  <ion-col size="3">
+                    <img 
+                      src="../assets/icon/favicon.png"
+                      class="product-image-size"
+                    />
+                  </ion-col>
+      
+                  <ion-col size="9">
+                    <h2 class="graphik-regular text-dark">
+                      {{ item.product.name }} <br>
+                      ({{ item.product.mpu }} X {{ item.quantity }})
+                    </h2><br>
+                    <h2 class="text-dark">
+                      <b>&#x20A6; {{ item.product.price | number }}</b>
+                      &nbsp;&nbsp; {{ item.quantity }} Units &nbsp;
+                      <ion-icon name="create" class="grey-light"></ion-icon>
+                      <ion-icon name="close" class="float-right badge-color text-red"></ion-icon>
+                    </h2>
+                  </ion-col>
+                </ion-row>
+              </ion-grid>
+            </ion-item>
+            
+          </ion-list>
+  
+          <div>
+            <h1 class="graphik-semibold text-dark">
+              TOTAL
+              <span class="float-right">&#x20A6; {{ order.amount | number }}</span>
+            </h1>
+          </div>
+  
+        </ion-card-content>
+      </div>      
     </ion-card>
 
   </ion-content>
